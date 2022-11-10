@@ -1,20 +1,30 @@
-import sumar from "./sumador";
-import dividir from "./divisor";
 
-const first = document.querySelector("#primer-numero");
-const second = document.querySelector("#segundo-numero");
-const form = document.querySelector("#sumar-form");
-const div = document.querySelector("#resultado-suma-div");
-const div3 = document.querySelector("#resultado-divide-div");
+        let tareas = [];
+        // example {id:1592304983049, title: 'Deadpool', year: 2015}
+        const addHomework = (ev)=>{
+            ev.preventDefault();  //to stop the form submitting
 
+            let tarea = {
+                id: Date.now(),
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                subject: document.getElementById('subject').value,
+                date: document.getElementById('date').value
 
-form.addEventListener("submit", (event) => {
-  event.preventDefault();
+            }
+            tareas.push(tarea);
 
-  const firstNumber = Number.parseInt(first.value);
-  const secondNumber = Number.parseInt(second.value);
+            document.forms[0].reset(); // to clear the form for the next entries
+            //document.querySelector('form').reset();
 
-  div.innerHTML = "<p>" + sumar(firstNumber, secondNumber) + "</p>";
-  div3.innerHTML = "<p>" + dividir(firstNumber, secondNumber) + "</p>";
+            //for display purposes only
+            console.warn('added' , {tareas} );
+            let pre = document.querySelector('#msg pre');
+            pre.textContent = '\n' + JSON.stringify(tareas, '\t', 2);
 
-});
+            //saving to localStorage
+            localStorage.setItem('taeasList', JSON.stringify(tareas) );
+        }
+        document.addEventListener('DOMContentLoaded', ()=>{
+            document.getElementById('btn').addEventListener('click', addHomework);
+        });
